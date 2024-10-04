@@ -1,0 +1,282 @@
+
+@import 
+'blocks/normilize',
+'blocks/fonts',
+'blocks/mixins',
+'blocks/utils';
+
+body {
+    font-family: 'San Francisco';
+}
+
+.container {
+    width: 830px;
+    display: flex;
+    flex-direction: column;
+    margin-inline: auto;
+    align-items: center;
+    background-color: #272e36;
+    border-radius: 15px;
+    padding: 30px;
+    height: auto;
+
+    &__date {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    &__clock, &__today-date {
+        font-size: 30px;
+        color: #FF9500;
+        opacity: 0.5;
+    }
+
+    &__today-date {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h1 {
+        color: #515d6c;
+        // -webkit-text-stroke: 2px #515d6c;
+    }
+
+    &__new-task {
+
+        display: flex;
+        align-items: stretch;
+        column-gap: 10px;
+
+        form {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            width: 585px;
+            border: 2px solid #1a1f25;
+            border-radius: 5px;
+            background-color: #1a1f25;
+            color: white;
+            outline: none;
+            padding: 2px;
+
+            &::placeholder {
+                text-align: center;
+            }
+
+            &:focus::placeholder {
+                color: transparent;
+              }
+
+            &:nth-child(2) {
+            width: 24px;
+            cursor: pointer;
+
+                &::-webkit-calendar-picker-indicator {
+                    filter: invert(50%);
+                    cursor: pointer;
+
+                }
+            }
+        }
+
+        button {
+            border-radius: 5px;
+            border: 2px solid #b6b8b9; 
+            background-color: #272e36;
+            color:#b6b8b9;
+            opacity: 0.5;
+            cursor: pointer;
+            transition-duration: 0.3s;
+            outline: none;
+
+            @include hover {
+                opacity: 0.5;
+                color: lightseagreen;
+                border-color: lightseagreen;
+            }
+
+            &:active {
+                scale: 0.95;
+            }
+
+            &:focus {
+                border-color: lightseagreen;
+            }
+
+        }
+
+        select {
+            border-radius: 5px;
+            border: 2px solid #b6b8b9; 
+            background-color: #272e36;
+            color: #b6b8b9;
+            opacity: 0.5;
+            cursor: pointer;
+            transition-duration: 0.3s;
+            outline: none;
+
+            &:active {
+                scale: 0.99;
+            }
+
+            &:focus {
+                border-color: lightcoral;
+            }
+
+            @include hover {
+                color: lightcoral;
+                border-color: lightcoral;
+                opacity: 0.5;
+            }
+        }
+    }
+
+    &__tasks {
+        width: 100%;
+        height: auto;
+        
+        h2 {
+        color: #515d6c;
+        }
+
+        &-active, &-done {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    &__task {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 10px;
+        padding-inline: 10px;
+        transition-duration: 0.3s;
+        user-select: none;
+
+        @include hover {
+            box-shadow: 10px 10px 15px 5px #1a1f25;
+            cursor: pointer;
+        }
+
+        &:not(:last-child) {
+            margin-bottom: 20px;
+        }
+
+        &-mark {
+            position: relative;
+            z-index: 1; //чтобы уставновить поверх svg и чтобы нажатие было на span
+            cursor: pointer;
+            opacity: 0.5;
+            transition-duration: 0.3s;
+
+            &:active {
+                scale: 0.9;
+            }
+
+            @include hover {
+                opacity: 1;
+
+                svg {
+                color: lightseagreen;
+                }
+            }
+
+            svg {
+                color: #708093;
+                position: relative;
+                z-index: -1; //чтобы скрыть под span и чтобы нажатие было на span
+            }
+        }  
+
+        &-mark.selected {
+            svg {
+                color: lightseagreen;
+                opacity: 0.5;
+            }
+        }
+
+        &-description {
+            width:600px;
+            text-align: center;
+            color: #b6b8b9;
+            font-size: 22px;
+            padding-inline: 10px;
+
+            p:first-child {
+                margin-bottom: 0;
+            }
+        }
+
+        &-deadline {
+            display: flex;
+            font-size: 0.8rem;
+            gap: 20px;
+            opacity: 0.5;
+            padding-inline: 10px;
+            color: #b6b8b9;
+
+            p:first-child {
+                margin-bottom: 0;
+            }
+        }
+
+        &-input {
+            width: 570px;
+            border: none;
+            border-radius: 5px;
+            background-color: #1a1f25;
+            color: white; 
+            font-size: 22px;
+        }
+
+        &-actions {
+            display: flex;
+            align-items: center;
+            column-gap: 5px;
+
+            span {
+                position: relative;
+                z-index: 1; //чтобы уставновить поверх svg и чтобы нажатие было на span
+                cursor: pointer;
+                opacity: 0.5;
+                transition-duration: 0.3s;
+
+                svg {
+                    color: #708093;
+                    position: relative;
+                    z-index: -1; //чтобы скрыть под span и чтобы нажатие было на span
+                }
+
+                &:active {
+                    scale: 0.9;
+                }
+
+                @include hover {
+                    opacity: 1;
+                }
+
+                &:nth-child(2) {
+                    svg {
+                        color: lightskyblue;
+                    }
+                }
+    
+                &:nth-child(3) {
+                    svg {
+                        color: lightcoral;
+                    }
+                }
+
+            }
+
+            
+
+        }
+    }
+}

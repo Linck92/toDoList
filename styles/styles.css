@@ -1,0 +1,444 @@
+@charset "UTF-8";
+/**
+  Нормализация блочной модели
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/**
+  Убираем внутренние отступы слева тегам списков,
+  у которых есть атрибут class
+ */
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+/**
+  Убираем внешние отступы body и двум другим тегам,
+  у которых есть атрибут class
+ */
+body,
+:where(blockquote, figure):where([class]) {
+  margin: 0;
+}
+
+/**
+  Убираем внешние отступы вертикали нужным тегам,
+  у которых есть атрибут class
+ */
+:where(h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+dl):where([class]) {
+  margin-block: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(fieldset[class]) {
+  margin-left: 0;
+  padding: 0;
+  border: none;
+}
+
+/**
+  Убираем стандартный маркер маркированному списку,
+  у которого есть атрибут class
+ */
+:where(ul[class]) {
+  list-style: none;
+}
+
+/**
+  Обнуляем вертикальные внешние отступы параграфа,
+  объявляем локальную переменную для внешнего отступа вниз,
+  чтобы избежать взаимодействие с более сложным селектором
+ */
+p {
+  --paragraphMarginBottom: 24px;
+  margin-block: 0;
+}
+
+/**
+  Внешний отступ вниз для параграфа без атрибута class,
+  который расположен не последним среди своих соседних элементов
+ */
+p:where(:not([class]):not(:last-child)) {
+  margin-bottom: var(--paragraphMarginBottom);
+}
+
+/**
+  Упрощаем работу с изображениями
+ */
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/**
+  Наследуем свойства шрифт для полей ввода
+ */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+html {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  height: 100%;
+  /**
+    Плавный скролл
+   */
+  scroll-behavior: smooth;
+}
+
+body {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  min-height: 100%;
+  /**
+    Унифицированный интерлиньяж
+   */
+  line-height: 1.5;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+ */
+svg *[fill] {
+  fill: currentColor;
+}
+
+svg *[stroke] {
+  stroke: currentColor;
+}
+
+/**
+  Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+ */
+svg * {
+  transition-property: fill, stroke;
+}
+
+/**
+  Удаляем все анимации и переходы для людей,
+  которые предпочитают их не использовать
+ */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+@font-face {
+  font-family: "San Francisco";
+  src: url("../font/SFUIDisplay-Regular.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  -webkit-clip-path: inset(100%) !important;
+          clip-path: inset(100%) !important;
+  clip: rect(0 0 0 0) !important;
+  overflow: hidden !important;
+}
+
+body {
+  font-family: "San Francisco";
+}
+
+.container {
+  width: 830px;
+  display: flex;
+  flex-direction: column;
+  margin-inline: auto;
+  align-items: center;
+  background-color: #272e36;
+  border-radius: 15px;
+  padding: 30px;
+  height: auto;
+}
+.container__date {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.container__clock, .container__today-date {
+  font-size: 30px;
+  color: #FF9500;
+  opacity: 0.5;
+}
+.container__today-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container h1 {
+  color: #515d6c;
+}
+.container__new-task {
+  display: flex;
+  align-items: stretch;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+}
+.container__new-task form {
+  display: flex;
+  gap: 10px;
+}
+.container__new-task input {
+  width: 585px;
+  border: 2px solid #1a1f25;
+  border-radius: 5px;
+  background-color: #1a1f25;
+  color: white;
+  outline: none;
+  padding: 2px;
+}
+.container__new-task input::-moz-placeholder {
+  text-align: center;
+}
+.container__new-task input::placeholder {
+  text-align: center;
+}
+.container__new-task input:focus::-moz-placeholder {
+  color: transparent;
+}
+.container__new-task input:focus::placeholder {
+  color: transparent;
+}
+.container__new-task input:nth-child(2) {
+  width: 24px;
+  cursor: pointer;
+}
+.container__new-task input:nth-child(2)::-webkit-calendar-picker-indicator {
+  filter: invert(50%);
+  cursor: pointer;
+}
+.container__new-task button {
+  border-radius: 5px;
+  border: 2px solid #b6b8b9;
+  background-color: #272e36;
+  color: #b6b8b9;
+  opacity: 0.5;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  outline: none;
+}
+@media (hover: hover) {
+  .container__new-task button:hover {
+    opacity: 0.5;
+    color: lightseagreen;
+    border-color: lightseagreen;
+  }
+}
+@media (hover: none) {
+  .container__new-task button:active {
+    opacity: 0.5;
+    color: lightseagreen;
+    border-color: lightseagreen;
+  }
+}
+.container__new-task button:active {
+  scale: 0.95;
+}
+.container__new-task button:focus {
+  border-color: lightseagreen;
+}
+.container__new-task select {
+  border-radius: 5px;
+  border: 2px solid #b6b8b9;
+  background-color: #272e36;
+  color: #b6b8b9;
+  opacity: 0.5;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  outline: none;
+}
+.container__new-task select:active {
+  scale: 0.99;
+}
+.container__new-task select:focus {
+  border-color: lightcoral;
+}
+@media (hover: hover) {
+  .container__new-task select:hover {
+    color: lightcoral;
+    border-color: lightcoral;
+    opacity: 0.5;
+  }
+}
+@media (hover: none) {
+  .container__new-task select:active {
+    color: lightcoral;
+    border-color: lightcoral;
+    opacity: 0.5;
+  }
+}
+.container__tasks {
+  width: 100%;
+  height: auto;
+}
+.container__tasks h2 {
+  color: #515d6c;
+}
+.container__tasks-active, .container__tasks-done {
+  display: flex;
+  flex-direction: column;
+}
+.container__task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+  padding-inline: 10px;
+  transition-duration: 0.3s;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+@media (hover: hover) {
+  .container__task:hover {
+    box-shadow: 10px 10px 15px 5px #1a1f25;
+    cursor: pointer;
+  }
+}
+@media (hover: none) {
+  .container__task:active {
+    box-shadow: 10px 10px 15px 5px #1a1f25;
+    cursor: pointer;
+  }
+}
+.container__task:not(:last-child) {
+  margin-bottom: 20px;
+}
+.container__task-mark {
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  opacity: 0.5;
+  transition-duration: 0.3s;
+}
+.container__task-mark:active {
+  scale: 0.9;
+}
+@media (hover: hover) {
+  .container__task-mark:hover {
+    opacity: 1;
+  }
+  .container__task-mark:hover svg {
+    color: lightseagreen;
+  }
+}
+@media (hover: none) {
+  .container__task-mark:active {
+    opacity: 1;
+  }
+  .container__task-mark:active svg {
+    color: lightseagreen;
+  }
+}
+.container__task-mark svg {
+  color: #708093;
+  position: relative;
+  z-index: -1;
+}
+.container__task-mark.selected svg {
+  color: lightseagreen;
+  opacity: 0.5;
+}
+.container__task-description {
+  width: 600px;
+  text-align: center;
+  color: #b6b8b9;
+  font-size: 22px;
+  padding-inline: 10px;
+}
+.container__task-description p:first-child {
+  margin-bottom: 0;
+}
+.container__task-deadline {
+  display: flex;
+  font-size: 0.8rem;
+  gap: 20px;
+  opacity: 0.5;
+  padding-inline: 10px;
+  color: #b6b8b9;
+}
+.container__task-deadline p:first-child {
+  margin-bottom: 0;
+}
+.container__task-input {
+  width: 570px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1a1f25;
+  color: white;
+  font-size: 22px;
+}
+.container__task-actions {
+  display: flex;
+  align-items: center;
+  -moz-column-gap: 5px;
+       column-gap: 5px;
+}
+.container__task-actions span {
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  opacity: 0.5;
+  transition-duration: 0.3s;
+}
+.container__task-actions span svg {
+  color: #708093;
+  position: relative;
+  z-index: -1;
+}
+.container__task-actions span:active {
+  scale: 0.9;
+}
+@media (hover: hover) {
+  .container__task-actions span:hover {
+    opacity: 1;
+  }
+}
+@media (hover: none) {
+  .container__task-actions span:active {
+    opacity: 1;
+  }
+}
+.container__task-actions span:nth-child(2) svg {
+  color: lightskyblue;
+}
+.container__task-actions span:nth-child(3) svg {
+  color: lightcoral;
+}/*# sourceMappingURL=styles.css.map */
